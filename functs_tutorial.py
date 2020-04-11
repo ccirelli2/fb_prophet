@@ -35,3 +35,20 @@ def inspect_data(train, test):
 
     return None
 
+
+def inspect_ts_info(train):
+    train['Datetime']   = pd.to_datetime(train.Datetime, format='%d-%m-%Y %H:%M')
+    train['years']      = train.Datetime.dt.year
+    train['hour']       = train.Datetime.dt.hour
+    train['day']        = train.Datetime.dt.day
+    train['month']      = train.Datetime.dt.month
+    months              = train.groupby('month')['Count'].mean()
+    days                = train.groupby('day')['Count'].mean()
+    hours               = train.groupby('hour')['Count'].mean()
+    yrs = train.groupby('years')['Count'].mean()
+    print('\n**Get Time Series Information **\n')
+    print('Range of Years => {}'.format(yrs.index.values))
+    print('Range of Months => {}'.format(months.index.values))
+    print('Range of days  => {}'.format(days.index.values))
+    print('Range of hours => {}'.format(hours.index.values))
+
